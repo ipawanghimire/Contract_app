@@ -56,12 +56,6 @@ class _DisplayDataPageState extends State<DisplayDataPage> {
       ),
       body: Stack(
         children: [
-          // Image.asset(
-          //   'assets/images/bg.jpeg', // Replace with your image file path
-          //   fit: BoxFit.cover, // Adjust the fit as needed
-          //   width: double.infinity,
-          //   height: double.infinity,
-          // ),
           Container(
             color: AppConstants.pinkColor
                 .withOpacity(0.1), // Adjust color and opacity
@@ -151,13 +145,7 @@ class _DisplayDataPageState extends State<DisplayDataPage> {
               final file = File(result);
 
               if (await file.exists()) {
-                showModalBottomSheet(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return PdfViewerWidget(
-                        filePath: result); // Pass the PDF file path
-                  },
-                );
+                showPdfViewerDialog(context, result);
               } else {
                 // File does not exist, show "Download Failed" snackbar
                 showSnackbar('PDF File Not Found');
@@ -186,4 +174,18 @@ class _DisplayDataPageState extends State<DisplayDataPage> {
       ),
     );
   }
+}
+
+void showPdfViewerDialog(BuildContext context, String filePath) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.0),
+        ),
+        child: PdfViewerWidget(filePath: filePath),
+      );
+    },
+  );
 }

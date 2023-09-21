@@ -91,9 +91,6 @@ class _HomePageState extends State<HomePage> {
     );
 
     if (result > 0) {
-      control.clear();
-      nameController.clear();
-
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           duration: const Duration(seconds: 1),
@@ -103,6 +100,9 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       );
+      await Future.delayed(const Duration(seconds: 5));
+      control.clear();
+      nameController.clear();
     } else {
       // Data insertion failed
       ScaffoldMessenger.of(context).showSnackBar(
@@ -207,9 +207,17 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                   Align(
                                     alignment: Alignment.topLeft,
-                                    child: Text("Full Name:",
-                                        style: GoogleFonts.mali(
-                                            fontWeight: FontWeight.w600)),
+                                    child: Row(
+                                      children: [
+                                        Text("First and Last name",
+                                            style: GoogleFonts.mali(
+                                                fontWeight: FontWeight.w600)),
+                                        const Text(
+                                          "*",
+                                          style: TextStyle(color: Colors.red),
+                                        )
+                                      ],
+                                    ),
                                   ),
                                   Container(
                                     decoration: BoxDecoration(
@@ -234,10 +242,18 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                   Align(
                                     alignment: Alignment.topLeft,
-                                    child: Text(
-                                      "Signature:",
-                                      style: GoogleFonts.mali(
-                                          fontWeight: FontWeight.w600),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          " Your Signature",
+                                          style: GoogleFonts.mali(
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                        const Text(
+                                          "*",
+                                          style: TextStyle(color: Colors.red),
+                                        )
+                                      ],
                                     ),
                                   ),
                                 ],
@@ -252,25 +268,46 @@ class _HomePageState extends State<HomePage> {
                                     context, nameController.text);
                               },
                               child: Container(
-                                height: 80.h,
-                                width: 200.w,
-                                decoration: BoxDecoration(
-                                  color: Colors.white30,
-                                  border: Border.all(
-                                    width: 1,
-                                  ),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    control.isFilled
-                                        ? 'Click to Edit'
-                                        : 'Click to Sign',
-                                    style: GoogleFonts.mali(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.blueGrey,
-                                    ),
-                                  ),
+                                height: 200.h,
+                                width: 300.w,
+                                child: ListView.builder(
+                                  itemCount:
+                                      1, // Only one item for the fixed part
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return Container(
+                                      height: 200.h,
+                                      width: 300.w,
+                                      decoration: BoxDecoration(
+                                        color: AppConstants.pinkColor
+                                            .withOpacity(0.1),
+                                        border: Border.all(
+                                          color: Colors.black,
+                                          width: 1,
+                                        ),
+                                      ),
+                                      child: Stack(
+                                        children: <Widget>[
+                                          Container(
+                                            constraints:
+                                                const BoxConstraints.expand(),
+                                            child: HandSignature(
+                                              control: control,
+                                              type: SignatureDrawType.shape,
+                                            ),
+                                          ),
+                                          CustomPaint(
+                                            painter: DebugSignaturePainterCP(
+                                              control: control,
+                                              cp: false,
+                                              cpStart: false,
+                                              cpEnd: false,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
                                 ),
                               ),
                             ),

@@ -23,7 +23,7 @@ class TextFormatter {
         children.add(TextSpan(
           text: parts[i],
           style: GoogleFonts.mali(
-            fontSize: 16,
+            fontSize: 12,
             fontWeight: FontWeight.w700,
             color: Color.fromARGB(255, 29, 27, 27),
           ),

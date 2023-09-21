@@ -21,10 +21,14 @@ class Logo extends StatelessWidget {
             ),
           ),
         ),
+        SizedBox(
+          height: 10.h,
+        ),
         Text(
           AppConstants.companyName,
+          textAlign: TextAlign.justify,
           style: GoogleFonts.mali(
-            fontSize: 16.sp,
+            fontSize: 14.sp,
             fontWeight: FontWeight.w700,
             color: const Color.fromARGB(255, 29, 27, 27),
           ),
